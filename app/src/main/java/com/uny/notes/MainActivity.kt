@@ -44,7 +44,7 @@ class MainActivity : AppCompatActivity() ,NotesAdapter.NoteClickListener,PopupMe
         viewModel = ViewModelProvider(
             this,
             ViewModelProvider.AndroidViewModelFactory.getInstance(application)
-        ).get(NoteViewModel::class.java)
+        )[NoteViewModel::class.java]
         viewModel.allnotes.observe(this) { list ->
             list?.let {
                 adapter.updateList(list)
@@ -91,7 +91,7 @@ class MainActivity : AppCompatActivity() ,NotesAdapter.NoteClickListener,PopupMe
 
         })
 
-    }
+    } 
 
     override fun onItemClicked(note: Note) {
         val intent = Intent(this@MainActivity,AddNote::class.java)

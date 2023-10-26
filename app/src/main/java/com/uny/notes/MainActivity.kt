@@ -52,6 +52,10 @@ class MainActivity : AppCompatActivity() ,NotesAdapter.NoteClickListener,PopupMe
         }
         database = NoteDatabase.getDatabase(this)
 
+        binding.imageNews.setOnClickListener {
+            startActivity(Intent(this,NewsActivity::class.java))
+        }
+
     }
 
     private fun initUI() {

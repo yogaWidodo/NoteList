@@ -10,7 +10,7 @@ plugins {
 
 android {
     namespace = "com.uny.notes"
-    compileSdk = 33
+    compileSdk = 34
 
     defaultConfig {
         applicationId = "com.uny.notes"
@@ -60,14 +60,24 @@ dependencies {
     implementation("com.airbnb.android:lottie:3.4.0")
     implementation("androidx.core:core-splashscreen:1.0.1")
 
-    val roomVersion = "2.5.2"
+    val roomVersion = "2.6.0"
 
     implementation("androidx.room:room-ktx:$roomVersion")
     implementation("androidx.room:room-runtime:$roomVersion")
     ksp("androidx.room:room-compiler:$roomVersion")
     androidTestImplementation ("androidx.room:room-testing:$roomVersion")
-    implementation( "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4")
+    implementation( "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.1")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.1")
+
+
+    implementation("com.squareup.okhttp3:logging-interceptor:4.10.0")
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+    implementation("androidx.lifecycle:lifecycle-extensions:2.2.0")
+    implementation("com.github.bumptech.glide:glide:4.15.1")
+    implementation("com.google.android.material:material:1.10.0")
+    implementation("androidx.fragment:fragment-ktx:1.6.1")
+    implementation("de.hdodenhof:circleimageview:3.1.0")
 
 
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.2")

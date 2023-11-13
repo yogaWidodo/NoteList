@@ -41,7 +41,7 @@
             android:textSize="14sp" />
 
         <TextView
-            android:id="@+id/tv_source"
+            android:id="@+id/tv_publishAt"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/date"

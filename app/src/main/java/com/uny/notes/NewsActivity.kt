@@ -36,8 +36,8 @@ class NewsActivity : AppCompatActivity() {
                 }
             searchUser()
         }
-        viewModel.getSearchUser().observe(this){
-            adapter.setListNews(it)
+        viewModel.getSearchUser().observe(this) { list ->
+            adapter.setListNews(list)
         }
     }
 
@@ -45,7 +45,7 @@ class NewsActivity : AppCompatActivity() {
         binding.apply {
             var query = searchView.text.toString()
             if (query.isEmpty()) {
-                query = "Bitcoin"
+                query = "Elon musk"
             }
             viewModel.getNews(query, binding.rvNews, adapter)
         }

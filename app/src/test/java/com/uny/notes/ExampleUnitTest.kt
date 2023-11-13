@@ -1,5 +1,7 @@
 package com.uny.notes
 
+import com.uny.notes.utilities.DateFormatter
+import org.junit.Assert
 import org.junit.Test
 
 import org.junit.Assert.*
@@ -11,7 +13,8 @@ import org.junit.Assert.*
  */
 class ExampleUnitTest {
     @Test
-    fun addition_isCorrect() {
-        assertEquals(4, 2 + 2)
+    fun `given correct ISO 8601 format then should format correctly`() {
+        val currentDate = "2022-02-02T10:10:10Z"
+        Assert.assertEquals("02 Feb 2022 | 17:10", DateFormatter.formatDate(currentDate))
     }
 }

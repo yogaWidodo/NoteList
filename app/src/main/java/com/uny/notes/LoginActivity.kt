@@ -1,16 +1,12 @@
 package com.uny.notes
 
+import SessionManager
 import android.content.Intent
 import android.os.Bundle
-import android.text.TextUtils
-import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.lifecycleScope
-import com.google.android.gms.tasks.OnCompleteListener
-import com.google.android.gms.tasks.Task
-import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
 import com.uny.notes.databinding.ActivityLoginBinding
 import com.uny.notes.local.LoginDatabase
@@ -19,6 +15,7 @@ import kotlinx.coroutines.launch
 class LoginActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLoginBinding
     private lateinit var mAuth: FirebaseAuth
+    private lateinit var sessionManager: SessionManager
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Thread.sleep(3000)
@@ -27,7 +24,10 @@ class LoginActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         mAuth = FirebaseAuth.getInstance()
-
+        sessionManager = SessionManager(this)
+        lifecycleScope.launch {
+            localLogin()
+        }
 
 
         binding.btnLogin.setOnClickListener {
@@ -41,6 +41,7 @@ class LoginActivity : AppCompatActivity() {
             lifecycleScope.launch {
                 val intent = Intent(this@LoginActivity, RegisterActivity::class.java)
                 startActivity(intent)
+
             }
         }
 
@@ -52,10 +53,14 @@ class LoginActivity : AppCompatActivity() {
         val dao = db?.userDao()
         val email = binding.etEmail.text.toString()
         val password = binding.etPassword.text.toString()
-        if (dao?.login(email, password) == true) {
-            startActivity(Intent(this, MainActivity::class.java))
-        }else{
-            Toast.makeText(this,"Username atau password salah!",Toast.LENGTH_LONG)
+        val userIsLogged = dao?.login(email, password)
+        if (sessionManager.getUsername() != null || userIsLogged != false) {
+            sessionManager.saveUser(email)
+            val intent = Intent(this@LoginActivity, MainActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+            startActivity(intent)
+        } else {
+            Toast.makeText(this, "Username atau password salah!", Toast.LENGTH_LONG)
                 .show()
         }
     }

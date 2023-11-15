@@ -1,5 +1,6 @@
 package com.uny.notes
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.activity.viewModels
@@ -24,6 +25,11 @@ class NewsActivity : AppCompatActivity() {
         binding.rvNews.layoutManager = LinearLayoutManager(this)
         binding.rvNews.setHasFixedSize(true)
         adapter = NewsAdapter(list)
+        adapter.onItemClick = {
+            val intent = Intent(this, DetailActivity::class.java)
+            intent.putExtra("news", it)
+            startActivity(intent)
+        }
 
         binding.apply {
             searchView.setupWithSearchBar(searchBar)
@@ -38,16 +44,27 @@ class NewsActivity : AppCompatActivity() {
         }
         viewModel.getSearchUser().observe(this) { list ->
             adapter.setListNews(list)
+            isShowLoading(false)
         }
+
     }
 
     private fun searchUser() {
         binding.apply {
             var query = searchView.text.toString()
+            isShowLoading(true)
             if (query.isEmpty()) {
-                query = "Elon musk"
+                query = "Breaking News"
             }
             viewModel.getNews(query, binding.rvNews, adapter)
+        }
+    }
+
+    private fun isShowLoading(state: Boolean) {
+        if (state) {
+            binding.progressBar.visibility = android.view.View.VISIBLE
+        } else {
+            binding.progressBar.visibility = android.view.View.GONE
         }
     }
 }

@@ -17,6 +17,8 @@ import com.uny.notes.utilities.DateFormatter
 
 class NewsAdapter(private val list: ArrayList<ArticlesItem>) :
     RecyclerView.Adapter<NewsAdapter.MyViewHolder>() {
+    var onItemClick: ((ArticlesItem) -> Unit)? = null
+
 
     inner class MyViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val date: TextView = view.findViewById(R.id.tv_publishAt)
@@ -46,6 +48,9 @@ class NewsAdapter(private val list: ArrayList<ArticlesItem>) :
             Glide.with(itemView.context)
                 .load(value.urlToImage)
                 .into(image)
+            itemView.setOnClickListener {
+                onItemClick?.invoke(value)
+            }
         }
     }
 

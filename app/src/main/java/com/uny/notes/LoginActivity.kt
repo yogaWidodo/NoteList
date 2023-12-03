@@ -5,9 +5,11 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat.startActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.lifecycleScope
 import com.google.firebase.auth.FirebaseAuth
+import com.uny.ForgotPasswordActivity
 import com.uny.notes.databinding.ActivityLoginBinding
 import com.uny.notes.local.LoginDatabase
 import kotlinx.coroutines.launch
@@ -25,9 +27,8 @@ class LoginActivity : AppCompatActivity() {
 
         mAuth = FirebaseAuth.getInstance()
         sessionManager = SessionManager(this)
-        lifecycleScope.launch {
-            localLogin()
-        }
+        session()
+
 
 
         binding.btnLogin.setOnClickListener {
@@ -35,6 +36,9 @@ class LoginActivity : AppCompatActivity() {
                 localLogin()
             }
 
+        }
+        binding.forgotPassword.setOnClickListener {
+            startActivity(Intent(this, ForgotPasswordActivity::class.java))
         }
 
         binding.tvRegister.setOnClickListener {
@@ -54,10 +58,10 @@ class LoginActivity : AppCompatActivity() {
         val email = binding.etEmail.text.toString()
         val password = binding.etPassword.text.toString()
         val userIsLogged = dao?.login(email, password)
-        if (sessionManager.getUsername() != null || userIsLogged != false) {
+        if (userIsLogged != null && email.isNotEmpty() && password.isNotEmpty()) {
             sessionManager.saveUser(email)
             val intent = Intent(this@LoginActivity, MainActivity::class.java)
-            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+            intent.putExtra("username", sessionManager.getUsername())
             startActivity(intent)
         } else {
             Toast.makeText(this, "Username atau password salah!", Toast.LENGTH_LONG)
@@ -65,6 +69,14 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
+    private fun session() {
+        if (sessionManager.getUsername() != null) {
+            val intent = Intent(this@LoginActivity, MainActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+            startActivity(intent)
+        }
+    }
+}
 
 //
 //    private fun loginUserAccount() {
@@ -108,4 +120,3 @@ class LoginActivity : AppCompatActivity() {
 //                }
 //            }
 //    }
-}

@@ -1,5 +1,6 @@
 package com.uny.notes
 
+import SessionManager
 import android.app.Activity
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -25,6 +26,8 @@ class MainActivity : AppCompatActivity() ,NotesAdapter.NoteClickListener,PopupMe
     lateinit var viewModel: NoteViewModel
     lateinit var adapter: NotesAdapter
     lateinit var selectedNote: Note
+    private lateinit var sessionManager: SessionManager
+
 
     private val updateNote = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){result->
         if (result.resultCode == Activity.RESULT_OK){
@@ -40,7 +43,7 @@ class MainActivity : AppCompatActivity() ,NotesAdapter.NoteClickListener,PopupMe
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         initUI()
-
+        sessionManager = SessionManager(this)
         viewModel = ViewModelProvider(
             this,
             ViewModelProvider.AndroidViewModelFactory.getInstance(application)
@@ -94,6 +97,9 @@ class MainActivity : AppCompatActivity() ,NotesAdapter.NoteClickListener,PopupMe
             }
 
         })
+        binding.logout.setOnClickListener {
+            logout()
+        }
 
     } 
 
@@ -121,6 +127,13 @@ class MainActivity : AppCompatActivity() ,NotesAdapter.NoteClickListener,PopupMe
             return true
         }
         return false
+    }
+    private fun logout(){
+        val intent = Intent(this,LoginActivity::class.java)
+        intent.getStringExtra("username")
+        sessionManager.logout()
+        startActivity(intent)
+        finish()
     }
 
 }

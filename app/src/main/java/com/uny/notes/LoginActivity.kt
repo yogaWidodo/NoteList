@@ -3,6 +3,8 @@ package com.uny.notes
 import SessionManager
 import android.content.Intent
 import android.os.Bundle
+import android.text.TextUtils
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat.startActivity
@@ -58,10 +60,11 @@ class LoginActivity : AppCompatActivity() {
         val email = binding.etEmail.text.toString()
         val password = binding.etPassword.text.toString()
         val userIsLogged = dao?.login(email, password)
-        if (userIsLogged != null && email.isNotEmpty() && password.isNotEmpty()) {
+        if (userIsLogged == true) {
             sessionManager.saveUser(email)
             val intent = Intent(this@LoginActivity, MainActivity::class.java)
             intent.putExtra("username", sessionManager.getUsername())
+            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
             startActivity(intent)
         } else {
             Toast.makeText(this, "Username atau password salah!", Toast.LENGTH_LONG)
@@ -77,6 +80,7 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 }
+
 
 //
 //    private fun loginUserAccount() {
@@ -119,4 +123,4 @@ class LoginActivity : AppCompatActivity() {
 //                    binding.progressbar.visibility = View.GONE
 //                }
 //            }
-//    }
+// }

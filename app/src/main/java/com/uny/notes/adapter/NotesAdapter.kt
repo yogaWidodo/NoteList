@@ -29,8 +29,6 @@ class NotesAdapter(private val context: Context, val listener: NoteClickListener
     fun updateList(newList: List<Note>) {
         fullList.clear()
         fullList.addAll(newList)
-
-
         notesList.clear()
         notesList.addAll(fullList)
         notifyDataSetChanged()

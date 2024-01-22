@@ -1,4 +1,4 @@
-package com.uny.notes.models
+package com.uny.notes.viewmodel
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
@@ -6,6 +6,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.viewModelScope
 import com.uny.notes.database.NoteDatabase
 import com.uny.notes.database.NotesRepository
+import com.uny.notes.models.Note
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 

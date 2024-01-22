@@ -17,7 +17,7 @@ import com.uny.notes.adapter.NotesAdapter
 import com.uny.notes.database.NoteDatabase
 import com.uny.notes.databinding.ActivityMainBinding
 import com.uny.notes.models.Note
-import com.uny.notes.models.NoteViewModel
+import com.uny.notes.viewmodel.NoteViewModel
 
 class MainActivity : AppCompatActivity() ,NotesAdapter.NoteClickListener,PopupMenu.OnMenuItemClickListener{
 

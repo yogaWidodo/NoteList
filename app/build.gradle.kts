@@ -61,7 +61,7 @@ dependencies {
     implementation("com.airbnb.android:lottie:3.4.0")
     implementation("androidx.core:core-splashscreen:1.0.1")
 
-    val roomVersion = "2.6.0"
+    val roomVersion = "2.6.1"
 
     implementation("androidx.room:room-ktx:$roomVersion")
     implementation("androidx.room:room-runtime:$roomVersion")
